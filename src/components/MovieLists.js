@@ -33,13 +33,12 @@ const MovieLists = () => {
       {movies.map((movie) => (
         <div className="movie-card" key={movie.episode_id}>
           <iframe
-            width="200"
-            height="315"
             src={`https://www.youtube.com/embed/${
               trailerVideoIds[movie.title]
             }`}
             frameBorder="0"
             title="trailer"
+            className="trailer-iframe"
           ></iframe>
           <h2>{movie.title}</h2>
           <p>Release Date: {movie.release_date}</p>
