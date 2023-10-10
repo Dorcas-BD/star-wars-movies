@@ -8,7 +8,7 @@ const MovieLists = () => {
   const [loading, setLoading] = useState(true);
   const [showFullCrawl, setShowFullCrawl] = useState(false);
 
-  const apiKey = "AIzaSyCp-AFmPtzFUbMJzih7QwomBInBwUVrRa0";
+  const apiKey = "AIzaSyC-hua-HLvBvx0NDWsyeEtOlvIhnYMY7nw";
 
   const fetchTrailer = async (movieTitle) => {
     try {
@@ -58,7 +58,8 @@ const MovieLists = () => {
       }
     },
   });
-  if (isLoading) return "Loading...";
+
+  if (isLoading) return loading && <Loading />;
   if (error) return "An error has occurred: " + error.message;
 
   const shortenCrawl = (crawl) => {
