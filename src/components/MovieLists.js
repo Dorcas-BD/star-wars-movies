@@ -72,11 +72,7 @@ const MovieLists = () => {
   };
 
   const handleCrawl = (index) => {
-    setShowFullCrawl((prevCrawl) => {
-      const updatedCrawl = [...prevCrawl];
-      updatedCrawl[index] = !updatedCrawl[index];
-      return [...updatedCrawl];
-    });
+    setShowFullCrawl((prevCrawl) => (prevCrawl === index ? null : index));
   };
 
   return (
