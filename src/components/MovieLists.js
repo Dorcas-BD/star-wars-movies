@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import Loading from "./Loading";
 
 const MovieLists = () => {
   const [movies, setMovies] = useState([]);
   const [trailerVideoIds, setTrailerVideoIds] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const apiKey = "AIzaSyAIKFlFDTiw85gzQOZBGSpdIQuYXlI4XDM";
 
@@ -24,6 +26,7 @@ const MovieLists = () => {
       .then((res) => res.json())
       .then((data) => {
         setMovies(data.results);
+        setLoading(false);
         data.results.forEach((movie) => {
           fetchTrailer(movie.title);
         });
@@ -31,21 +34,27 @@ const MovieLists = () => {
   }, []);
 
   return (
-    <div className="movie-list">
-      {movies.map((movie) => (
-        <div className="movie-card" key={movie.episode_id}>
-          <iframe
-            src={`https://www.youtube.com/embed/${
-              trailerVideoIds[movie.title]
-            }`}
-            title="trailer"
-            className="trailer-iframe"
-          ></iframe>
-          <h2>{movie.title}</h2>
-          <p>Release Date: {movie.release_date}</p>
-          <p>{movie.opening_crawl}</p>
+    <div>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="movie-list">
+          {movies.map((movie) => (
+            <div className="movie-card" key={movie.episode_id}>
+              <iframe
+                src={`https://www.youtube.com/embed/${
+                  trailerVideoIds[movie.title]
+                }`}
+                title="trailer"
+                className="trailer-iframe"
+              ></iframe>
+              <h2>{movie.title}</h2>
+              <p>Release Date: {movie.release_date}</p>
+              <p>{movie.opening_crawl}</p>
+            </div>
+          ))}
         </div>
-      ))}
+      )}
     </div>
   );
 };
