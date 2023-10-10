@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Loading from "./Loading";
+import { useQuery } from "@tanstack/react-query";
 
 const MovieLists = () => {
   const [movies, setMovies] = useState([]);
   const [trailerVideoIds, setTrailerVideoIds] = useState({});
   const [loading, setLoading] = useState(true);
+  const [showFullCrawl, setShowFullCrawl] = useState(false);
 
-  const apiKey = "AIzaSyAIKFlFDTiw85gzQOZBGSpdIQuYXlI4XDM";
+  const apiKey = "AIzaSyCp-AFmPtzFUbMJzih7QwomBInBwUVrRa0";
 
   const fetchTrailer = async (movieTitle) => {
     try {
@@ -21,17 +23,60 @@ const MovieLists = () => {
     }
   };
 
-  useEffect(() => {
-    fetch("https://swapi.dev/api/films")
-      .then((res) => res.json())
-      .then((data) => {
-        setMovies(data.results);
+  // useEffect(() => {
+  //   fetch("https://swapi.dev/api/films")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setMovies(data.results);
+  //       setLoading(false);
+  //       data.results.forEach((movie) => {
+  //         fetchTrailer(movie.title);
+  //       });
+  //     });
+
+  // }, []);
+
+  const { isLoading, error } = useQuery({
+    queryKey: ["films"],
+    queryFn: async () => {
+      try {
+        const response = await fetch("https://swapi.dev/api/films");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const filmData = await response.json();
+        const films = filmData.results;
+        setMovies(films);
         setLoading(false);
-        data.results.forEach((movie) => {
+
+        films.forEach((movie) => {
           fetchTrailer(movie.title);
         });
-      });
-  }, []);
+        return filmData;
+      } catch (error) {
+        throw new Error("Error fetching films: ", error);
+      }
+    },
+  });
+  if (isLoading) return "Loading...";
+  if (error) return "An error has occurred: " + error.message;
+
+  const shortenCrawl = (crawl) => {
+    const words = crawl.split(" ");
+    if (words.length <= 50) {
+      return crawl;
+    } else {
+      return words.slice(0, 15).join(" ") + " ... ";
+    }
+  };
+
+  const handleCrawl = (index) => {
+    setShowFullCrawl((prevCrawl) => {
+      const updatedCrawl = [...prevCrawl];
+      updatedCrawl[index] = !updatedCrawl[index];
+      return [...updatedCrawl];
+    });
+  };
 
   return (
     <div>
@@ -50,7 +95,14 @@ const MovieLists = () => {
               ></iframe>
               <h2>{movie.title}</h2>
               <p>Release Date: {movie.release_date}</p>
-              <p>{movie.opening_crawl}</p>
+              <p>
+                {showFullCrawl
+                  ? movie.opening_crawl
+                  : shortenCrawl(movie.opening_crawl)}
+                <span onClick={handleCrawl} className="show-btn">
+                  {showFullCrawl ? "Show Less" : "Show More"}
+                </span>
+              </p>
             </div>
           ))}
         </div>

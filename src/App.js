@@ -1,16 +1,17 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./App.css";
 import Header from "./components/Header";
 import MovieLists from "./components/MovieLists";
 
-function App() {
-  fetch("https://swapi.dev/api/films").then((res) =>
-    res.json().then((movie) => console.log(movie))
-  );
+const queryClient = new QueryClient();
 
+function App() {
   return (
     <div className="App">
-      <Header />
-      <MovieLists />
+      <QueryClientProvider client={queryClient}>
+        <Header />
+        <MovieLists />
+      </QueryClientProvider>
     </div>
   );
 }
