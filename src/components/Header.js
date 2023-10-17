@@ -6,6 +6,10 @@ const Header = () => {
     <div className="header">
       <SearchBar />
       <img src="./starWar.png" alt="Star Warlogo" />
+      <ul className="header-ul">
+        <li>Subscribe</li>
+        <li>Login</li>
+      </ul>
     </div>
   );
 };

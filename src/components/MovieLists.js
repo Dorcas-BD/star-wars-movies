@@ -8,7 +8,7 @@ const MovieLists = () => {
   const [loading, setLoading] = useState(true);
   const [showFullCrawl, setShowFullCrawl] = useState(false);
 
-  const apiKey = "AIzaSyC-hua-HLvBvx0NDWsyeEtOlvIhnYMY7nw";
+  const apiKey = process.env.REACT_APP_YOUTUBE_API_KEY;
 
   const fetchTrailer = async (movieTitle) => {
     try {
@@ -22,19 +22,6 @@ const MovieLists = () => {
       console.log("Error fetching trailer:", error);
     }
   };
-
-  // useEffect(() => {
-  //   fetch("https://swapi.dev/api/films")
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setMovies(data.results);
-  //       setLoading(false);
-  //       data.results.forEach((movie) => {
-  //         fetchTrailer(movie.title);
-  //       });
-  //     });
-
-  // }, []);
 
   const { isLoading, error } = useQuery({
     queryKey: ["films"],
