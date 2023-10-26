@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Loading from "./Loading";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 
 const MovieLists = () => {
   const [movies, setMovies] = useState([]);
@@ -58,10 +59,6 @@ const MovieLists = () => {
     }
   };
 
-  const handleCrawl = (index) => {
-    setShowFullCrawl((prevCrawl) => (prevCrawl === index ? null : index));
-  };
-
   return (
     <div>
       {loading ? (
@@ -83,14 +80,15 @@ const MovieLists = () => {
                 {showFullCrawl
                   ? movie.opening_crawl
                   : shortenCrawl(movie.opening_crawl)}
-                <span onClick={handleCrawl} className="show-btn">
-                  {showFullCrawl ? "Show Less" : "Show More"}
-                </span>
               </p>
+              <Link to="/movie" className="view-btn">
+                View More
+              </Link>
             </div>
           ))}
         </div>
       )}
+      <div></div>
     </div>
   );
 };
