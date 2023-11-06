@@ -59,10 +59,6 @@ const MovieLists = () => {
     }
   };
 
-  const handleCrawl = (index) => {
-    setShowFullCrawl((prevCrawl) => (prevCrawl === index ? null : index));
-  };
-
   return (
     <div>
       {loading ? (
@@ -70,6 +66,7 @@ const MovieLists = () => {
       ) : (
         <div className="movie-list">
           {movies.map((movie) => (
+<<<<<<< HEAD
             <Link to={`/movie/${movie.episode_id}`} key={movie.episode_id}>
               <div className="movie-card" key={movie.episode_id}>
                 <iframe
@@ -94,9 +91,31 @@ const MovieLists = () => {
                 </Link>
               </div>
             </Link>
+=======
+            <div className="movie-card" key={movie.episode_id}>
+              <iframe
+                src={`https://www.youtube.com/embed/${
+                  trailerVideoIds[movie.title]
+                }`}
+                title="trailer"
+                className="trailer-iframe"
+              ></iframe>
+              <h2>{movie.title}</h2>
+              <p>Release Date: {movie.release_date}</p>
+              <p>
+                {showFullCrawl
+                  ? movie.opening_crawl
+                  : shortenCrawl(movie.opening_crawl)}
+              </p>
+              <Link to="/movie" className="view-btn">
+                View More
+              </Link>
+            </div>
+>>>>>>> 7e0e386d27b9a3f53a261293468e324acb24852b
           ))}
         </div>
       )}
+      <div></div>
     </div>
   );
 };
