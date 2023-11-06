@@ -1,12 +1,12 @@
 import React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import "./App.css";
-import MovieLists from "./components/MovieLists";
-import Header from "./components/Header";
+import "../App.css";
+import Header from "../components/Header";
+import MovieLists from "../components/MovieLists";
 
 const queryClient = new QueryClient();
 
-function App() {
+const HomePage = () => {
   return (
     <div className="App">
       <QueryClientProvider client={queryClient}>
@@ -15,6 +15,6 @@ function App() {
       </QueryClientProvider>
     </div>
   );
-}
+};
 
-export default App;
+export default HomePage;

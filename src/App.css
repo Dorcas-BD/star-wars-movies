@@ -70,6 +70,10 @@ button {
   .movie-list {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  button {
+    margin-top: 10px;
+  }
 }
 @media (min-width: 992px) {
   .movie-list {

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Loading from "./Loading";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 
 const MovieLists = () => {
   const [movies, setMovies] = useState([]);
@@ -69,25 +70,30 @@ const MovieLists = () => {
       ) : (
         <div className="movie-list">
           {movies.map((movie) => (
-            <div className="movie-card" key={movie.episode_id}>
-              <iframe
-                src={`https://www.youtube.com/embed/${
-                  trailerVideoIds[movie.title]
-                }`}
-                title="trailer"
-                className="trailer-iframe"
-              ></iframe>
-              <h2>{movie.title}</h2>
-              <p>Release Date: {movie.release_date}</p>
-              <p>
-                {showFullCrawl
-                  ? movie.opening_crawl
-                  : shortenCrawl(movie.opening_crawl)}
-                <span onClick={handleCrawl} className="show-btn">
-                  {showFullCrawl ? "Show Less" : "Show More"}
-                </span>
-              </p>
-            </div>
+            <Link to={`/movie/${movie.episode_id}`} key={movie.episode_id}>
+              <div className="movie-card" key={movie.episode_id}>
+                <iframe
+                  src={`https://www.youtube.com/embed/${
+                    trailerVideoIds[movie.title]
+                  }`}
+                  title="trailer"
+                  className="trailer-iframe"
+                ></iframe>
+                <h2>{movie.title}</h2>
+                <p>Release Date: {movie.release_date}</p>
+                <p>
+                  {showFullCrawl
+                    ? movie.opening_crawl
+                    : shortenCrawl(movie.opening_crawl)}
+                  <span onClick={handleCrawl} className="show-btn">
+                    {/* {showFullCrawl ? "Show Less" : "Show More"} */}
+                  </span>
+                </p>
+                <Link to={`/movie/${movie.episode_id}`} key={movie.episode_id}>
+                  View More
+                </Link>
+              </div>
+            </Link>
           ))}
         </div>
       )}
